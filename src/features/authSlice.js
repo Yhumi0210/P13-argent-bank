@@ -11,7 +11,7 @@ const url = import.meta.env.VITE_API_BASE_URL
 
 // Async thunk for signup
 export const signup = createAsyncThunk('auth/signup', async (credentials) => {
-    const response = await fetch(`http://localhost:3001/api/v1/user/signup`, {
+    const response = await fetch(`${url}/user/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const signup = createAsyncThunk('auth/signup', async (credentials) => {
 
 // Async thunk for login
 export const login = createAsyncThunk('auth/login', async (credentials) => {
-    const response = await fetch(`http://localhost:3001/api/v1/user/login`, {
+    const response = await fetch(`${url}/user/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
 // Async thunk for fetching user profile
 export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, { getState }) => {
     const token = getState().auth.token
-    const response = await fetch(`http://localhost:3001/api/v1/user/profile`, {
+    const response = await fetch(`${url}/user/profile`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
