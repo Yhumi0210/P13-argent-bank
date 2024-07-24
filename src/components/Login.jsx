@@ -18,7 +18,7 @@ const Login = () => {
     useEffect(() => {
         if (token) {
             console.log('JWT Token:', token)
-            navigate('/profile')
+            navigate('/user/profile')
         }
     }, [token, navigate])
 

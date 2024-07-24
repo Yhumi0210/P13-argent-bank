@@ -46,9 +46,10 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
 })
 
 // Async thunk for fetching user profile
-export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (token) => {
+export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, { getState }) => {
+    const token = getState().auth.token
     const response = await fetch(`http://localhost:3001/api/v1/user/profile`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
