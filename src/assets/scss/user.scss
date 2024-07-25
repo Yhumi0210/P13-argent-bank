@@ -1,3 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@mixin font {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+@mixin montserrat {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
+}
+
+$grey: #4b586e;
+$light: #DFE6ED;
+
 %flex-center{
   display: flex;
   align-items: center;
@@ -6,15 +26,20 @@
 
 .user {
   @extend %flex-center;
+  @include montserrat;
   flex-direction: column;
-  padding-bottom: 4rem;
+  padding: 4rem 0;
+  &-title {
+    color: black;
+    margin: 0;
+  }
 }
 
 .account {
   display: flex;
   flex-direction: column;
-  //justify-content: space-between;
-  //align-items: center;
+  justify-content: space-between;
+  align-items: center;
   border: 1px solid black;
   background-color: #fff;
   width: 80%;
@@ -46,28 +71,66 @@
   flex: 1;
 }
 
-.edit-button {
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
-  font-weight: bold;
-  padding: 10px;
-}
 
 .header {
   color: #fff;
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-button {
+  margin-top: 2rem;
+}
+
+.edit {
+  margin-top: 1.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.8rem;
+  &-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+
+    &-input {
+      width: 10rem;
+      height: 2rem;
+      color: #9EADBA;
+      border: #9EADBA 1px solid;
+      border-radius: 3px;
+      padding-left: 0.6rem;
+      background-color: white;
+      @include montserrat;
+      text-align: left;
+    }
+
+    &-valid {
+      width: 8rem;
+      height: 2rem;
+      color: #615CF2;
+      border: #B3B3F0 2px solid;
+      background-color: white;
+      border-radius: 3px;
+      @include montserrat;
+    }
+  }
 }
 
 .transaction-button {
+  @include montserrat;
   display: block;
   width: 100%;
   padding: 8px;
   font-size: 1.1rem;
   font-weight: bold;
-  margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
+  background-color: #615CF2;
   color: #fff;
 }
 

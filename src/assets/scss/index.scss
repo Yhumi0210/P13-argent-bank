@@ -3,8 +3,10 @@
 @import "homepage";
 @import "signin";
 @import "user";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 // Styles
 $grey: #2c3e50;
+$light: #DFE6ED;
 
 @mixin font {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -32,6 +34,10 @@ body {
 
 .bg-dark {
   background-color: #12002b;
+}
+
+.bg-light {
+  background-color: $light;
 }
 
 .sr-only {

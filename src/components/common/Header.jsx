@@ -29,8 +29,6 @@ function Header() {
         navigate('/')
     }
 
-
-
     return (
         <>
             <nav className="main-nav">
