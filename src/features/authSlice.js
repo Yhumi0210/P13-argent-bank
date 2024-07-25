@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const initialState = {
     user: null,
-    token: null,
+    token: localStorage.getItem('token') || null,
     status: 'idle',
     error: null,
 }
@@ -42,6 +42,7 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
     }
 
     const data = await response.json()
+    localStorage.setItem('token', data.body.token)
     return data.body
 })
 
@@ -73,6 +74,7 @@ const authSlice = createSlice({
             state.token = null
             state.status = 'idle'
             state.error = null
+            localStorage.removeItem('token')
         },
     },
     extraReducers: (builder) => {

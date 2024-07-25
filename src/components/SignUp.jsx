@@ -26,7 +26,7 @@ const SignUp = () => {
             <main className="main bg-dark flexcenter">
                 <section className="sign-in-content">
                     <i className="fa fa-user-circle sign-in-icon"></i>
-                    <h1>Sign In</h1>
+                    <h1>Sign Up</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="input-wrapper">
                             <label htmlFor="username">Username</label>
@@ -46,7 +46,7 @@ const SignUp = () => {
                             <input type="checkbox" id="remember-me"/>
                             <label htmlFor="remember-me">Remember me</label>
                         </div>
-                        <button className="sign-in-button" type="submit">Sign In</button>
+                        <button className="sign-in-button" type="submit">Sign Up</button>
                     </form>
                 </section>
             </main>
