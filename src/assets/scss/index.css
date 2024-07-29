@@ -1,5 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 .main-nav {
   display: flex;
   justify-content: space-between;
@@ -126,6 +136,7 @@
 
 .button {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -135,6 +146,7 @@
   font-size: 1rem;
   font-weight: bold;
   color: #2c3e50;
+  cursor: pointer;
 }
 .button:hover {
   text-decoration: underline;
@@ -154,6 +166,7 @@
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+  cursor: pointer;
 }
 
 .sign-in-content {
@@ -208,7 +221,7 @@
   padding: 4rem 0;
 }
 .user-title {
-  color: black;
+  color: white;
   margin: 0;
 }
 
@@ -298,6 +311,11 @@
   font-weight: 500;
   font-style: normal;
   text-align: center;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+.edit-div-valid:hover {
+  transform: scale(1.05);
 }
 
 .transaction-button {
@@ -313,8 +331,13 @@
   border-radius: 5px;
   border: none;
   box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
-  background-color: #615CF2;
+  background-color: #00bc77;
   color: #fff;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+}
+.transaction-button:hover {
+  transform: scale(1.05);
 }
 
 @media (min-width: 720px) {
@@ -328,6 +351,36 @@
     width: 200px;
   }
 }
+.error {
+  height: 80vh;
+}
+.error__title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
+  color: white;
+  margin: 0;
+  padding-top: 5rem;
+  font-size: 5rem;
+  font-weight: 600;
+}
+.error__text {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
+  color: white;
+  padding-top: 2rem;
+}
+.error__link {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
+  color: white;
+}
+
 html {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-style: normal;

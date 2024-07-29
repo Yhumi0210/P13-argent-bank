@@ -1,22 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-@mixin font {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-@mixin montserrat {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-  text-align: center;
-}
-
-$grey: #4b586e;
-$light: #DFE6ED;
+@import "variables";
 
 %flex-center{
   display: flex;
@@ -30,7 +12,7 @@ $light: #DFE6ED;
   flex-direction: column;
   padding: 4rem 0;
   &-title {
-    color: black;
+    color: white;
     margin: 0;
   }
 }
@@ -116,6 +98,11 @@ $light: #DFE6ED;
       background-color: white;
       border-radius: 3px;
       @include montserrat;
+      cursor: pointer;
+      transition: transform 200ms ease-in-out;
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
 }
@@ -130,8 +117,13 @@ $light: #DFE6ED;
   border-radius: 5px;
   border: none;
   box-shadow: 2px 1px 5px rgba(0, 0, 0, 0.5);
-  background-color: #615CF2;
+  background-color: $green;
   color: #fff;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 @media (min-width: 720px) {

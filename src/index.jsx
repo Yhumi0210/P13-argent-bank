@@ -10,6 +10,7 @@ import UserProfile from './components/UserProfile'
 import Header from './components/common/Header'
 import Footer from './components/common/Footer'
 import HomePage from './components/pages/HomePage'
+import NotFound from './components/pages/NotFound.jsx'
 
 // Fetch user profile if token exists
 if (localStorage.getItem('token')) {
@@ -25,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                     <Route path="/user/signup" element={<SignUp />} />
                     <Route path="/user/login" element={<Login/>} />
                     <Route path="/user/profile" element={<UserProfile />} />
-                    {/*<Route path="/404" element={} />*/}
+                    <Route path="/*" element={<NotFound />} /> {/* Cette route capture toutes les autres URL non listées */}
                 </Routes>
                 <Footer />
             </Router>

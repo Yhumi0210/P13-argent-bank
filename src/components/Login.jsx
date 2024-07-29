@@ -17,7 +17,6 @@ const Login = () => {
 
     useEffect(() => {
         if (token) {
-            console.log('JWT Token:', token)
             navigate('/user/profile')
         }
     }, [token, navigate])
