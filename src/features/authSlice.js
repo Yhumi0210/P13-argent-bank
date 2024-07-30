@@ -10,6 +10,23 @@ const initialState = {
 const url = import.meta.env.VITE_API_BASE_URL
 
 // Async thunk for signup
+// export const signup = createAsyncThunk('auth/signup', async (credentials) => {
+//     const response = await fetch(`${url}/user/signup`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(credentials),
+//     })
+//
+//     if (!response.ok) {
+//         throw new Error('SignUp failed')
+//     }
+//
+//     const data = await response.json()
+//     return data
+// })
+// Async thunk for signup
 export const signup = createAsyncThunk('auth/signup', async (credentials) => {
     const response = await fetch(`${url}/user/signup`, {
         method: 'POST',
@@ -27,8 +44,23 @@ export const signup = createAsyncThunk('auth/signup', async (credentials) => {
     return data
 })
 
+
 // Async thunk for login
 export const login = createAsyncThunk('auth/login', async (credentials) => {
+    // try {
+    //     const response = await fetch(`${url}/user/login`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(credentials),
+    //         })
+    //     const data = response.json()
+    //     localStorage.setItem('token', data.body.token)
+    //     return data.body
+    // } catch (error) {
+    //     return error.error
+    // }
     const response = await fetch(`${url}/user/login`, {
         method: 'POST',
         headers: {
@@ -38,7 +70,7 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
     })
 
     if (!response.ok) {
-        throw new Error('Login failed')
+        throw new Error('SignUp failed')
     }
 
     const data = await response.json()
@@ -47,6 +79,24 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
 })
 
 // Async thunk for fetching user profile
+// // Async thunk for fetching user profile
+// export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, {getState}) => {
+//     const token = getState().auth.token
+//     try {
+//         const response = await fetch(`${url}/user/profile`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`,
+//             },
+//         })
+//
+//         const data = await response.json()
+//         return data.body
+//     } catch (error) {
+//         return error.error
+//     }
+// })
 export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, { getState }) => {
     const token = getState().auth.token
     const response = await fetch(`${url}/user/profile`, {
