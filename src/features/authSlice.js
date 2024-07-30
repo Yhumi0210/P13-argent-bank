@@ -9,110 +9,76 @@ const initialState = {
 
 const url = import.meta.env.VITE_API_BASE_URL
 
-// Async thunk for signup
-// export const signup = createAsyncThunk('auth/signup', async (credentials) => {
-//     const response = await fetch(`${url}/user/signup`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(credentials),
-//     })
-//
-//     if (!response.ok) {
-//         throw new Error('SignUp failed')
-//     }
-//
-//     const data = await response.json()
-//     return data
-// })
-// Async thunk for signup
-export const signup = createAsyncThunk('auth/signup', async (credentials) => {
-    const response = await fetch(`${url}/user/signup`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-    })
 
-    if (!response.ok) {
-        throw new Error('SignUp failed')
+// Async thunk for signup
+export const signup = createAsyncThunk('auth/signup', async (credentials, { rejectWithValue }) => {
+    try {
+        const response = await fetch(`${url}/user/signup`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            return rejectWithValue(errorData.message)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        return rejectWithValue(error.message)
     }
-
-    const data = await response.json()
-    return data
 })
 
-
 // Async thunk for login
-export const login = createAsyncThunk('auth/login', async (credentials) => {
-    // try {
-    //     const response = await fetch(`${url}/user/login`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify(credentials),
-    //         })
-    //     const data = response.json()
-    //     localStorage.setItem('token', data.body.token)
-    //     return data.body
-    // } catch (error) {
-    //     return error.error
-    // }
-    const response = await fetch(`${url}/user/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-    })
+export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
+    try {
+        const response = await fetch(`${url}/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+        })
 
-    if (!response.ok) {
-        throw new Error('SignUp failed')
+        const data = await response.json()
+
+        if (!response.ok) {
+            return rejectWithValue(data.message)
+        }
+
+        localStorage.setItem('token', data.body.token)
+        return data.body
+    } catch (error) {
+        return rejectWithValue(error.message)
     }
-
-    const data = await response.json()
-    localStorage.setItem('token', data.body.token)
-    return data.body
 })
 
 // Async thunk for fetching user profile
-// // Async thunk for fetching user profile
-// export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, {getState}) => {
-//     const token = getState().auth.token
-//     try {
-//         const response = await fetch(`${url}/user/profile`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${token}`,
-//             },
-//         })
-//
-//         const data = await response.json()
-//         return data.body
-//     } catch (error) {
-//         return error.error
-//     }
-// })
-export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, { getState }) => {
+export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, { getState, rejectWithValue }) => {
     const token = getState().auth.token
-    const response = await fetch(`${url}/user/profile`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-    })
+    try {
+        const response = await fetch(`${url}/user/profile`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
 
-    if (!response.ok) {
-        throw new Error('Fetching user profile failed')
+        const data = await response.json()
+
+        if (!response.ok) {
+            return rejectWithValue(data.message)
+        }
+
+        return data.body
+    } catch (error) {
+        return rejectWithValue(error.message)
     }
-
-    const data = await response.json()
-    return data.body
 })
 
 const authSlice = createSlice({
@@ -128,32 +94,36 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        const setLoading = (state) => {
+            state.status = 'loading'
+            state.error = null
+        }
+
+        const setSucceeded = (state, action) => {
+            state.status = 'succeeded'
+            state.token = action.payload.token
+            state.error = null
+        }
+
+        const setFailed = (state, action) => {
+            state.status = 'failed'
+            state.error = action.payload || action.error.message
+        }
+
         builder
-            .addCase(login.pending, (state) => {
-                state.status = 'loading'
-            })
-            .addCase(login.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.token = action.payload.token
-            })
-            .addCase(login.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.error.message
-            })
-            .addCase(signup.pending, (state) => {
-                state.status = 'loading'
-            })
-            .addCase(signup.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.token = action.payload.token
-            })
-            .addCase(signup.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.error.message
-            })
+            .addCase(login.pending, setLoading)
+            .addCase(login.fulfilled, setSucceeded)
+            .addCase(login.rejected, setFailed)
+            .addCase(signup.pending, setLoading)
+            .addCase(signup.fulfilled, setSucceeded)
+            .addCase(signup.rejected, setFailed)
+            .addCase(fetchUserProfile.pending, setLoading)
             .addCase(fetchUserProfile.fulfilled, (state, action) => {
+                state.status = 'succeeded'
                 state.user = action.payload
+                state.error = null
             })
+            .addCase(fetchUserProfile.rejected, setFailed)
     },
 })
 
