@@ -58,10 +58,6 @@ function Header() {
                             Sign in
                         </Link>
                     )}
-                    {/*<Link className="main-nav-item" to='/user/signup'>*/}
-                    {/*    <i className="fa-solid fa-user-plus"></i>*/}
-                    {/*    Sign Up*/}
-                    {/*</Link>*/}
                 </div>
             </nav>
         </>

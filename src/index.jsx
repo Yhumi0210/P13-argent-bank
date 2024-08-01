@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import { store } from './app/store'
 import { fetchUserProfile } from './features/authSlice'
 import Login from './components/Login'
-import SignUp from './components/SignUp.jsx'
 import UserProfile from './components/UserProfile'
 import Header from './components/common/Header'
 import Footer from './components/common/Footer'
@@ -23,7 +22,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Header />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/user/signup" element={<SignUp />} />
                     <Route path="/user/login" element={<Login/>} />
                     <Route path="/user/profile" element={<UserProfile />} />
                     <Route path="/*" element={<NotFound />} /> {/* Cette route capture toutes les autres URL non listées */}

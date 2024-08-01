@@ -9,30 +9,6 @@ const initialState = {
 
 const url = import.meta.env.VITE_API_BASE_URL
 
-
-// Async thunk for signup
-export const signup = createAsyncThunk('auth/signup', async (credentials, { rejectWithValue }) => {
-    try {
-        const response = await fetch(`${url}/user/signup`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(credentials),
-        })
-
-        if (!response.ok) {
-            const errorData = await response.json()
-            return rejectWithValue(errorData.message)
-        }
-
-        const data = await response.json()
-        return data
-    } catch (error) {
-        return rejectWithValue(error.message)
-    }
-})
-
 // Async thunk for login
 export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
     try {
@@ -114,9 +90,6 @@ const authSlice = createSlice({
             .addCase(login.pending, setLoading)
             .addCase(login.fulfilled, setSucceeded)
             .addCase(login.rejected, setFailed)
-            .addCase(signup.pending, setLoading)
-            .addCase(signup.fulfilled, setSucceeded)
-            .addCase(signup.rejected, setFailed)
             .addCase(fetchUserProfile.pending, setLoading)
             .addCase(fetchUserProfile.fulfilled, (state, action) => {
                 state.status = 'succeeded'
