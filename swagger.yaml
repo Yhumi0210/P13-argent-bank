@@ -1,0 +1,328 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: User Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            $ref: '#/definitions/Login'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Login Successfully
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Invalid login Fields
+        '500':
+          description: Internal Server Error
+  /user/signup:
+    post:
+      tags:
+        - User Module
+      summary: User Signup
+      description: API for user Signup
+      parameters:
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Signup Successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid signup Fields
+        '500':
+          description: Internal Server Error
+  /user/profile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Retrieve User Profile
+      description: API for fetching a user profile
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Update User Profile
+      description: API for updating a user profile
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update user profile attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UserProfile'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+
+  /user/accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Accounts and Transactions Module
+      summary: Retrieve All User Accounts
+      description: API for retrieving all user accounts
+      responses:
+        '200':
+          description: All user accounts retrieved successfully
+          schema:
+            $ref: '#/definitions/AccountsResponse'
+        '400':
+          description: No accounts found
+        '500':
+          description: Internal Server Error
+
+  /user/{accountID}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Accounts and Transactions Module
+      summary: Account transactions
+      description: API for retrieving list of transactions assiocated with an account
+      parameters:
+        - in: path
+          name: accountID
+          description: ID of an account
+          required: true
+          type: string
+      responses:
+        '200':
+          description: All transactions retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionsResponse'
+
+        '400':
+          description: Account not found
+        '401':
+          description: No transaction found
+        '403':
+          description: Unauthorized user, token is missing
+        '500':
+          description: Internal Server Error
+
+  /user/account/{transactionID}/comments/{commentsID}:
+    put:
+      tags:
+        - Accounts and Transactions Module
+      summary: Edit or Add transaction's category or note
+      description: API for adding or editing a category or a note of a transaction
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: transactionID
+          description: ID of a transaction
+          required: true
+          type: string
+        - in: path
+          name: commentsID
+          description: ID of a category or a note
+          required: true
+          type: string
+        - in: body
+          name: comments
+          description: New or updated transaction's note
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionComments'
+      responses:
+        '200':
+          description: Category or Note edited successfully
+          schema:
+            $ref: '#/definitions/TransactionResponseComments'
+        '400':
+          description: Category or Note could not be edited or added, Invalid transaction or note/category data
+        '403':
+          description: Unauthorized user, token is missing
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Accounts and Transactions Module
+      summary: Delete transaction's category or note
+      description: API for deleting a category or a note from a transaction
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: transactionID
+          description: ID of a transaction
+          required: true
+          type: string
+        - in: path
+          name: commentsID
+          description: ID of a category or a note
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Category or Note deleted successfully
+        '400':
+          description: Category or Note not deleted, Invalid transaction or note/category data
+        '403':
+          description: Unauthorized user, token is missing
+        '500':
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  User:
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+      firstName:
+        type: string
+        description: user first name
+      lastName:
+        type: string
+        description: user last name
+      userName:
+        type: string
+        description: user public name
+  Login:
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          email:
+            type: string
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+  UserProfile:
+    type: object
+    properties:
+      userName:
+        type: string
+  AccountsResponse:
+    type: object
+    properties:
+      transactions:
+        type: string
+  TransactionsResponse:
+    type: object
+    properties:
+      transactionID:
+        type: string
+        description: transaction ID
+      transactionType:
+        type: string
+        description: type of transaction
+      date:
+        type: string
+        format: date-time
+        description: date of transaction
+      description:
+        type: string
+        description: description of transaction
+      amount:
+        type: number
+        description: transaction amount
+      balance:
+        type: number
+        description: available balance
+        format: double
+      category:
+        type: string
+        description: name of the category
+      note:
+        type: string
+        description: user note
+  TransactionComments:
+    type: object
+    properties:
+      note:
+        type: string
+  TransactionResponseComments:
+    type: object
+    properties:
+      note:
+        type: string
+      noteID:
+        type: string
