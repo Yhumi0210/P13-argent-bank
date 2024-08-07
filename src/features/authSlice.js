@@ -34,7 +34,9 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
 })
 
 // Async thunk for fetching user profile
-export const fetchUserProfile = createAsyncThunk('auth/fetchUserProfile', async (_, { getState, rejectWithValue }) => {
+export const fetchUserProfile =
+    createAsyncThunk('auth/fetchUserProfile', async (_,
+    { getState, rejectWithValue }) => {
     const token = getState().auth.token
     try {
         const response = await fetch(`${url}/user/profile`, {

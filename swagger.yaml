@@ -113,7 +113,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /user/accounts:
+  /accounts:
     get:
       security:
         - Bearer: []
@@ -127,43 +127,52 @@ paths:
           schema:
             $ref: '#/definitions/AccountsResponse'
         '400':
-          description: No accounts found
+          description: Bad request
+        '404':
+          description: Account not found
         '500':
           description: Internal Server Error
 
-  /user/{accountID}/transactions:
+  /{accountID}/transactions/{transactionID}:
     get:
       security:
         - Bearer: []
       tags:
         - Accounts and Transactions Module
-      summary: Account transactions
-      description: API for retrieving list of transactions assiocated with an account
+      summary: All transactions details
+      description: API for retrieving details of transactions
       parameters:
         - in: path
           name: accountID
           description: ID of an account
           required: true
           type: string
+        - in: path
+          name: transactionID
+          description: ID of an transaction
+          required: true
+          type: string
       responses:
         '200':
-          description: All transactions retrieved successfully
+          description: All details of transactions retrieved successfully
           schema:
             type: array
             items:
               $ref: '#/definitions/TransactionsResponse'
 
         '400':
-          description: Account not found
+          description: Bad request
         '401':
-          description: No transaction found
+          description: Invalid token
         '403':
-          description: Unauthorized user, token is missing
+          description: Unauthorized operation
+        '404':
+          description: Account not found
         '500':
           description: Internal Server Error
 
-  /user/account/{transactionID}/comments/{commentsID}:
-    put:
+  /{accountID}/{transactionID}/comments/{commentsID}:
+    patch:
       tags:
         - Accounts and Transactions Module
       summary: Edit or Add transaction's category or note
@@ -171,6 +180,11 @@ paths:
       security:
         - Bearer: []
       parameters:
+        - in: path
+          name: accountID
+          description: ID of an account
+          required: true
+          type: string
         - in: path
           name: transactionID
           description: ID of a transaction
@@ -192,39 +206,16 @@ paths:
           description: Category or Note edited successfully
           schema:
             $ref: '#/definitions/TransactionResponseComments'
-        '400':
-          description: Category or Note could not be edited or added, Invalid transaction or note/category data
+
+        '401':
+          description: Invalid token
         '403':
-          description: Unauthorized user, token is missing
+          description: Unauthorized operation, Category or Note could not be edited or added, Invalid transaction or note/category data
+        '404':
+          description: transaction or note/category data not found
         '500':
           description: Internal Server Error
-    delete:
-      tags:
-        - Accounts and Transactions Module
-      summary: Delete transaction's category or note
-      description: API for deleting a category or a note from a transaction
-      security:
-        - Bearer: []
-      parameters:
-        - in: path
-          name: transactionID
-          description: ID of a transaction
-          required: true
-          type: string
-        - in: path
-          name: commentsID
-          description: ID of a category or a note
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Category or Note deleted successfully
-        '400':
-          description: Category or Note not deleted, Invalid transaction or note/category data
-        '403':
-          description: Unauthorized user, token is missing
-        '500':
-          description: Internal Server Error
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -283,11 +274,14 @@ definitions:
   AccountsResponse:
     type: object
     properties:
-      transactions:
+      accounts:
         type: string
   TransactionsResponse:
     type: object
     properties:
+      accountID:
+        type: string
+        description: account ID
       transactionID:
         type: string
         description: transaction ID
@@ -317,12 +311,12 @@ definitions:
   TransactionComments:
     type: object
     properties:
-      note:
+      comments:
         type: string
   TransactionResponseComments:
     type: object
     properties:
-      note:
+      comments:
         type: string
-      noteID:
+      commentsID:
         type: string
